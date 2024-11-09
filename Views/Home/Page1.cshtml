@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Page1";
+}
+@if (ViewData["message"] != null)
+{
+    <script>alert(ViewData["message"]);</script>
+    <h3> @ViewData["username"] 歡迎</h3>
+
+    <a class="btn btn-light" asp-action="Index" asp-controller="Home">Back to Home Page</a>
+}
+else
+{
+    <h3>未登入，尚未有資料寫入Session</h3>
+    <a class="btn btn-outline-info" asp-action="Login" asp-controller="Home">Back to Login</a>
+}

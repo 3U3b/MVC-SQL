@@ -1,0 +1,127 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<style>
+    /* ページ全体の基本設定 */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #E5F3FF; /* 薄い青の背景 */
+        color: #333;
+    }
+
+    /* ヘッダーのスタイル */
+    h1.display-1, h3.display-5 {
+        text-align: center;
+        color: #5AA3F2; /* プライマリ青 */
+    }
+
+    h1.display-1 {
+        font-size: 4rem; /* 大きなフォントサイズ */
+        margin-bottom: 0.5rem;
+    }
+
+    h3.display-5 {
+        font-size: 2.5rem;
+        color: #6c757d; /* ミューテッドグレー */
+    }
+
+    /* ボタンのスタイル */
+    button {
+        padding: 0.75rem 1.25rem;
+        font-size: 1.25rem;
+        color: #5AA3F2; /* ボタンのテキスト色 */
+        background-color: transparent;
+        border: 2px solid #5AA3F2; /* プライマリ青のボーダー */
+        border-radius: 0.3rem;
+        transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+    }
+
+        button:hover {
+            background-color: #5AA3F2; /* ホバー時の背景色 */
+            color: white;
+        }
+
+    /* リンクのスタイル調整 */
+    a {
+        text-decoration: none; /* リンクの下線を消去 */
+    }
+
+    .container, .row, .col-md-8 {
+        width: 100%; /* コンテナの幅を最大に */
+        max-width: none; /* 最大幅の制限を解除 */
+    }
+
+    .container {
+        margin-top: 5rem; /* 上マージンの追加 */
+    }
+
+    .text-center {
+        text-align: center; /* テキストを中央寄せ */
+    }
+
+    .d-flex {
+        display: flex; /* フレックスボックスを使用 */
+        justify-content: center; /* 水平方向の中央寄せ */
+        margin-top: 5rem; /* 上マージンの追加 */
+    }
+</style>
+
+<div class="text-center">
+    <h1 class="display-1">Welcome</h1>
+    <h3 class="display-5">Let's get started</h3>
+    @if (Context.Session.GetString("State") == null)
+    {
+        <button id="leaderButton">I am the class <strong>Leader</strong></button>
+        <button id="memberButton">I am the class <strong>Member</strong></button>
+    }
+</div>
+
+
+<div id="content"></div> <!-- 這是插入 URL 的容器 -->
+<!-- <a class="btn btn-light" asp-action="Create">還沒有帳號?點我前往註冊</a> -->
+<!-- 加入 JavaScript 程式碼來處理按鈕點擊事件 -->
+<script>
+    var leaderButton = document.getElementById('leaderButton');
+    var createSection = document.getElementById('createSection');
+    var memberButton = document.getElementById('memberButton');
+    /**/
+    leaderButton.addEventListener('click', function () {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '@Url.Action("Login", "Home")', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) { // 4 == XMLHttpRequest.DONE
+                if (xhr.status != 200) {
+                    //載入失敗
+                    createSection.innerHTML = 'Failed to load content.';
+                } else {
+                    // 將 Create 視圖的內容插入到目前頁面中的 createSection 容器中(連bootstrap navbar都會被嵌入(用_PartialView可修正))
+                    // createSection.innerHTML = xhr.responseText;
+
+                    window.location.href = '@Url.Action("Login", "Home")'; // 頁面跳轉
+
+                    // document.getElementById("content").innerHTML = xhr.responseText;
+                    // 讓"Login"嵌入在這個頁面下方位置
+                }
+            }
+        };
+        xhr.send();
+    });
+    // 在不須檢查連線狀態下 同:leaderButton.addEventListener('click', function () {window.location.href = '@Url.Action("Login", "Home")';});
+
+    memberButton.addEventListener('click', function () {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '@Url.Action("memLogin", "Home")', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) { // 4 == XMLHttpRequest.DONE
+                if (xhr.status != 200) {
+                    //載入失敗
+                    createSection.innerHTML = 'Failed to load content.';
+                } else {
+                    window.location.href = '@Url.Action("memLogin", "Home")';
+                }
+            }
+        };
+        xhr.send();
+    });
+
+</script>

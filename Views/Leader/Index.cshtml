@@ -1,0 +1,126 @@
+﻿@model IEnumerable<MVCwithSQLITE.Models.Leader>
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Core.Fluent;
+
+@{
+    ViewData["Title"] = "LeaderIndex";
+    var pagedList = (IPagedList)ViewBag.Leader;
+}
+
+<style>
+    /* ページ全体の基本設定 */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #E5F3FF; /* 薄い青の背景 */
+        color: #333;
+    }
+
+    /* ヘッダーのスタイル */
+    h1.display-1, h3.display-5 {
+        text-align: center;
+        color: #5AA3F2; /* プライマリ青 */
+    }
+
+    h1.display-1 {
+        font-size: 4rem; /* 大きなフォントサイズ */
+        margin-bottom: 0.5rem;
+    }
+
+    h3.display-5 {
+        font-size: 2.5rem;
+        color: #6c757d; /* ミューテッドグレー */
+    }
+
+    /* ボタンのスタイル */
+    button {
+        padding: 0.75rem 1.25rem;
+        font-size: 1.25rem;
+        color: #5AA3F2; /* ボタンのテキスト色 */
+        background-color: transparent;
+        border: 2px solid #5AA3F2; /* プライマリ青のボーダー */
+        border-radius: 0.3rem;
+        transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+    }
+
+        button:hover {
+            background-color: #5AA3F2; /* ホバー時の背景色 */
+            color: white;
+        }
+
+    /* リンクのスタイル調整 */
+    a {
+        text-decoration: none; /* リンクの下線を消去 */
+    }
+
+    .container, .row, .col-md-8 {
+        width: 100%; /* コンテナの幅を最大に */
+        max-width: none; /* 最大幅の制限を解除 */
+    }
+
+    .container {
+        margin-top: 5rem; /* 上マージンの追加 */
+    }
+
+    .text-center {
+        text-align: center; /* テキストを中央寄せ */
+    }
+
+    .d-flex {
+        display: flex; /* フレックスボックスを使用 */
+        justify-content: center; /* 水平方向の中央寄せ */
+        margin-top: 5rem; /* 上マージンの追加 */
+    }
+</style>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LeaderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaderId)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+                <td>
+                    <a class="btn btn-outline-success" asp-action="Edit" asp-route-id="@item.LeaderId">Edit</a>
+                    <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.LeaderId">Details</a>
+                </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div style="align-content:center">
+    @(Html.Pager(pagedList)
+        .Url(page => Url.Action("LeaderIndex", new { page }))
+        .Build())
+</div>

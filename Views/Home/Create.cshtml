@@ -1,0 +1,65 @@
+﻿@model MVCwithSQLITE.Models.Leader
+
+@{
+    ViewData["Title"] = "Create";
+    var showConfirm = ViewData["ShowConfirm"] != null && (bool)ViewData["ShowConfirm"];
+}
+
+<h1>Create</h1>
+
+<h4>Leader</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LeaderId" class="control-label"></label>
+                <input asp-for="LeaderId" class="form-control" />
+                <span asp-validation-for="LeaderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="註冊並登入" class="btn btn-primary" />
+            </div>
+            @if (showConfirm)
+            {
+                <script type="text/javascript">
+                    var user = ViewData["UserInfo"];
+                    // 顯示 JavaScript 的 confirm 框
+                    var result = confirm("Are you sure you want to do thit?");
+                    if (result) {
+                        window.location.href = '@Url.Action("Login", "Home")' + "?model=" + user;
+                    } else {
+                        // 使用者選擇取消，什麼都不做
+                        alert("login cancelled.");
+                    }
+                </script>
+            }
+            @if (ViewBag.AlarmMessage != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewBag.AlarmMessage
+                </div>
+            }
+        </form>
+    </div>
+</div>
+
+
+
+
